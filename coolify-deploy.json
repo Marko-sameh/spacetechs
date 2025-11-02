@@ -1,0 +1,23 @@
+{
+  "project_uuid": "YOUR_PROJECT_UUID",
+  "server_uuid": "YOUR_SERVER_UUID",
+  "environment_name": "production",
+  "git_repository": "https://github.com/YOUR_USERNAME/our-company",
+  "git_branch": "main",
+  "ports_exposes": "3000",
+  "destination_uuid": "YOUR_DESTINATION_UUID",
+  "build_pack": "dockerfile",
+  "name": "SpaceTech Frontend",
+  "description": "Next.js 15 production frontend with 3D portfolio",
+  "is_static": false,
+  "base_directory": "/",
+  "domains": "spacetechs.net",
+  "instant_deploy": true,
+  "dockerfile_location": "./Dockerfile",
+  "environment_variables": {
+    "NODE_ENV": "production",
+    "NEXT_TELEMETRY_DISABLED": "1",
+    "PORT": "3000",
+    "HOSTNAME": "0.0.0.0"
+  }
+}

@@ -14,7 +14,7 @@ export function FeatureGridClient({ title, features }) {
       if (entry.isIntersecting) {
         const element = entry.target
         const delay = parseInt(element.dataset.delay) || 0
-        
+
         // Use requestAnimationFrame for better performance
         setTimeout(() => {
           requestAnimationFrame(() => {
@@ -65,8 +65,8 @@ export function FeatureGridClient({ title, features }) {
   return (
     <section ref={sectionRef} className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
-        <div 
-          ref={titleRef} 
+        <div
+          ref={titleRef}
           data-type="title"
           className="text-center mb-16 opacity-0 transition-all duration-600 ease-out" // Reduced duration
           style={titleStyle}
