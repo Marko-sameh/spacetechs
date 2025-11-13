@@ -2,9 +2,9 @@ import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import { ContactForm } from '@/components/ContactForm'
 import { LocalBusinessStructuredData } from '@/components/SEO/StructuredData'
+import { Scene3D } from '@/components/ClientComponents'
+import { ParticleField } from '@/components/three/objects/ParticleField'
 
-const ParticleField = dynamic(() => import('@/components/three/objects/ParticleField').then(mod => ({ default: mod.ParticleField })))
-const Scene3D = dynamic(() => import('@/components/three/core/Scene3D').then(mod => ({ default: mod.Scene3D })))
 
 export const metadata = {
   title: 'Contact SpaceTechs - Web Development Company | Get Free Quote for Your Project',

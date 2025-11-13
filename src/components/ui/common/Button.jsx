@@ -29,16 +29,14 @@ const Button = memo(forwardRef(({
   children,
   ...props
 }, ref) => {
-  const buttonClasses = useMemo(() => {
-    return cn(
-      BASE_CLASSES,
-      BUTTON_VARIANTS[variant] || BUTTON_VARIANTS.primary,
-      BUTTON_SIZES[size] || BUTTON_SIZES.md,
-      magnetic && 'magnetic',
-      disabled && 'opacity-50 cursor-not-allowed pointer-events-none',
-      className
-    )
-  }, [variant, size, magnetic, disabled, className])
+  const buttonClasses = cn(
+    BASE_CLASSES,
+    BUTTON_VARIANTS[variant] || BUTTON_VARIANTS.primary,
+    BUTTON_SIZES[size] || BUTTON_SIZES.md,
+    magnetic && 'magnetic',
+    disabled && 'opacity-50 cursor-not-allowed pointer-events-none',
+    className
+  )
 
   if (asChild && children) {
     try {

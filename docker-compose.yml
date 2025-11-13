@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Build-time arguments for NEXT_PUBLIC_ variables
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+        NEXT_PUBLIC_API_KEY: ${NEXT_PUBLIC_API_KEY}
+        NEXT_PUBLIC_BASE_PATH: ${NEXT_PUBLIC_BASE_PATH}
+    ports:
+      - "3000:3000"
+    environment:
+      # Runtime environment variables (server-only secrets)
+      - API_KEY=${API_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+      - SESSION_SECRET=${SESSION_SECRET}
+    env_file:
+      - .env.local
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

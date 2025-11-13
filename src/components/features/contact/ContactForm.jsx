@@ -20,27 +20,33 @@ export function ContactForm() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setErrors({})
+    setStatus('loading')
 
-    try {
-      const validatedData = contactSchema.parse(formData)
+    // Validate form data
+    const result = contactSchema.safeParse(formData)
 
-      const subject = encodeURIComponent('Contact Form Submission')
-      const body = encodeURIComponent(`Name: ${validatedData.name}\nEmail: ${validatedData.email}\n\nMessage:\n${validatedData.message}`)
-      const mailtoLink = `mailto:contact@spacetechs.net?subject=${subject}&body=${body}`
+    if (!result.success) {
+      const fieldErrors = {}
+      result.error.issues.forEach(err => {
+        fieldErrors[err.path[0]] = err.message
+      })
+      setErrors(fieldErrors)
+      setStatus('idle')
+      return
+    }
 
+    // Create mailto link
+    const subject = encodeURIComponent('Contact Form Submission')
+    const body = encodeURIComponent(`Name: ${result.data.name}\nEmail: ${result.data.email}\n\nMessage:\n${result.data.message}`)
+    const mailtoLink = `mailto:contact@spacetechs.net?subject=${subject}&body=${body}`
+
+    // Trigger mailto after delay
+    setTimeout(() => {
       window.location.href = mailtoLink
       setStatus('success')
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const fieldErrors = {}
-        error.errors.forEach(err => {
-          fieldErrors[err.path[0]] = err.message
-        })
-        setErrors(fieldErrors)
-      }
-    }
+      setFormData({ name: '', email: '', message: '' })
+    }, 500)
   }
-
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
@@ -139,14 +145,16 @@ export function ContactForm() {
       <Button
         type="submit"
         className="w-full flex items-center justify-center gap-2"
-        magnetic
+        disabled={status === 'loading'}
       >
-        {status === 'success' ? (
+        {status === 'loading' ? (
+          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        ) : status === 'success' ? (
           <CheckCircle size={20} />
         ) : (
           <Send size={20} />
         )}
-        {status === 'success' ? 'Opening Email Client...' : 'Send Message'}
+        {status === 'loading' ? 'Sending...' : status === 'success' ? 'Message Sent!' : 'Send Message'}
       </Button>
 
       {status === 'success' && (

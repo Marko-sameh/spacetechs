@@ -1,37 +1,40 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable standalone output for Docker deployment
   output: 'standalone',
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'dummyimage.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'dlcdnwebimgs.asus.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-      }
-    ],
-    formats: ['image/webp', 'image/avif'],
-    minimumCacheTTL: 60,
-  },
+  
+  // Optimize for production
   experimental: {
-    optimizePackageImports: ['framer-motion', '@react-three/fiber', '@react-three/drei'],
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+  
+  // Image optimization for Docker
+  images: {
+    unoptimized: process.env.NODE_ENV === 'production',
   },
-  poweredByHeader: false,
-  generateEtags: false,
-  compress: true,
+  
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default nextConfig

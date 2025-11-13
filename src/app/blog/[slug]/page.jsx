@@ -10,17 +10,17 @@ import {
   Tag
 } from 'lucide-react'
 import { generateBlogPostSchema, generateCanonicalUrl, generateOpenGraphImage } from '@/lib/seo'
-import { blogService } from '@/lib/services/blogService'
+// import apiClient from '@/lib/apiClient'
+import { Scene3D } from '@/components/ClientComponents'
+import { ParticleField } from '@/components/three/objects/ParticleField'
+import apiClient from '@/lib/api/client'
 
-const StarField3D = dynamic(() => import('@/components/three/effects/StarField3D').then(mod => ({ default: mod.StarField3D })))
-const ParticleField = dynamic(() => import('@/components/three/objects/ParticleField').then(mod => ({ default: mod.ParticleField })))
-const Scene3D = dynamic(() => import('@/components/three/core/Scene3D').then(mod => ({ default: mod.Scene3D })))
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
 
   try {
-    const response = await blogService.getBlog(slug)
+    const response = await apiClient.getBlog(slug)
     const blog = response.data?.blog || response.data
 
     if (!blog) {
@@ -92,7 +92,7 @@ export default async function BlogDetailPage({ params }) {
 
   let blog = null
   try {
-    const response = await blogService.getBlog(slug)
+    const response = await apiClient.getBlog(slug)
     blog = response.data?.blog || response.data
   } catch (error) {
     console.error('Error fetching blog:', error)
@@ -113,7 +113,7 @@ export default async function BlogDetailPage({ params }) {
       <div className="fixed inset-0 -z-10 h-screen w-screen">
         <Suspense fallback={<div className="w-full h-full bg-gradient-to-br from-purple-900/10 to-cyan-900/10" />} suppressHydrationWarning>
           <Scene3D>
-            <StarField3D count={900} />
+
             <ParticleField count={2000} />
           </Scene3D>
         </Suspense>
@@ -190,7 +190,6 @@ export default async function BlogDetailPage({ params }) {
                 dangerouslySetInnerHTML={{
                   __html: typeof blog.content === 'string' ? blog.content : 'Invalid content format'
                 }}
-                onError={() => console.warn('Failed to render blog content')}
               />
             ) : (
               <p className="text-gray-300 leading-relaxed">

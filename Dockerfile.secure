@@ -1,70 +1,63 @@
 # syntax=docker/dockerfile:1
-# Multi-stage Dockerfile for Next.js with secure environment variable handling
-# Stage 1: Dependencies installation
+# Production-ready Next.js Dockerfile with secure environment variable handling
+
+# Stage 1: Dependencies
 FROM node:18-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-
-# Copy package files
 COPY package.json package-lock.json* ./
-RUN npm ci --frozen-lockfile
+RUN npm ci --only=production --frozen-lockfile
 
-# Stage 2: Build stage with public environment variables
+# Stage 2: Builder with public variables
 FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Copy dependencies from deps stage
+# Copy dependencies and source
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Accept build-time arguments for NEXT_PUBLIC_ variables
+# Build-time arguments for NEXT_PUBLIC_ variables (inlined into bundle)
 ARG NEXT_PUBLIC_API_BASE_URL
 ARG NEXT_PUBLIC_API_KEY
 ARG NEXT_PUBLIC_BASE_PATH
 
-# Set build-time environment variables (these will be inlined into the bundle)
+# Set public environment variables for build
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 ENV NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY
 ENV NEXT_PUBLIC_BASE_PATH=$NEXT_PUBLIC_BASE_PATH
-
-# Enable standalone output for optimal Docker deployment
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
-# Build the application with standalone output
+# Build application
 RUN npm run build
 
 # Stage 3: Production runtime
 FROM node:18-alpine AS runner
 WORKDIR /app
 
-# Create non-root user for security
+# Install curl for health checks
+RUN apk add --no-cache curl
+
+# Create non-root user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy only necessary files from builder
+# Copy built application
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Set production environment
+# Runtime environment
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-
-# Install curl for health checks
-RUN apk add --no-cache curl
-
-# Switch to non-root user
-USER nextjs
-
-# Expose port
-EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+
+USER nextjs
+EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:3000 || exit 1
 
-# Start the application
 CMD ["node", "server.js"]

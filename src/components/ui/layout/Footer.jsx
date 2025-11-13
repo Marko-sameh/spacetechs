@@ -46,21 +46,11 @@ export function Footer() {
           viewBox="0 0 1440 320"
           preserveAspectRatio="none"
         >
-          {mounted ? (
-            <motion.path
-              variants={WAVE_VARIANTS}
-              animate="animate"
-              fill="currentColor"
-              className="text-accent/20"
-              d={STATIC_WAVE_PATH}
-            />
-          ) : (
-            <path
-              fill="currentColor"
-              className="text-accent/20"
-              d={STATIC_WAVE_PATH}
-            />
-          )}
+          <path
+            fill="currentColor"
+            className="text-accent/20"
+            d={STATIC_WAVE_PATH}
+          />
         </svg>
       </div>
 
