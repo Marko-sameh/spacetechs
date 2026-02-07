@@ -169,11 +169,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Space Techs**
 - Website: [https://spacetechs.net](https://spacetechs.net/)
 -  Email: contact@speedtechs.net
-- LinkedIn: [Speed Tech](https://linkedin.com/company/spacetechs)
+- LinkedIn: [Space Techs](https://linkedin.com/company/spacetechs)
 
 ---
 
 <div align="center">
-  <p>Built with ❤️ by Speed Tech</p>
+  <p>Built with ❤️ by Marko Sameh</p>
   <p>⭐ Star this repo if you found it helpful!</p>
 </div>
