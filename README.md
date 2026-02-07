@@ -167,10 +167,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 **Speed Tech**
-- Website: [https://speedtech.dev](https://speedtech.dev)
-- Email: contact@speedtech.dev
-- GitHub: [@speedtech](https://github.com/speedtech)
-- LinkedIn: [Speed Tech](https://linkedin.com/company/speedtech)
+- Website: [https://spacetechs.net](https://spacetechs.net/)
+-  Email: contact@speedtechs.net
+- LinkedIn: [Speed Tech](https://linkedin.com/company/spacetechs)
 
 ---
 
