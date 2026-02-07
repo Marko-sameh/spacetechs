@@ -40,7 +40,7 @@ A cutting-edge portfolio and business showcase website built with Next.js 15, fe
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/speed-tech-portfolio.git
+   git clone https://github.com/Marko-sameh/spacetechs.git
    cd speed-tech-portfolio
    ```
 
