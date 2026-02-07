@@ -1,4 +1,4 @@
-# Speed Tech - Interactive 3D Portfolio
+# Space Techs - Interactive 3D Portfolio
 
 > Accelerating the Future with Mobile, Web, and AI Innovation
 
@@ -17,9 +17,9 @@ A cutting-edge portfolio and business showcase website built with Next.js 15, fe
 ## 🚀 Tech Stack
 
 ### Core Framework
-- **Next.js 15.5.5** - React framework with App Router and Turbopack
-- **React 19.1.0** - Latest React with concurrent features
-- **React DOM 19.1.0** - DOM rendering library
+- **Next.js** - React framework with App Router and Turbopack
+- **React** - Latest React with concurrent features
+- **React DOM** - DOM rendering library
 
 ### 3D Graphics & Animation
 - **@react-three/drei 10.7.6** - Three.js helpers and abstractions
@@ -166,7 +166,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-**Speed Tech**
+**Space Techs**
 - Website: [https://spacetechs.net](https://spacetechs.net/)
 -  Email: contact@speedtechs.net
 - LinkedIn: [Speed Tech](https://linkedin.com/company/spacetechs)
